@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class MemoryCards extends View {
     private ArrayList<Rect> cardsPlaces = new ArrayList<>();
-    private Paint blue, red, green, purple, black;
+    private Paint blue, red, carrot, green, purple, black, midnightBlue, concrete, sunflower;
     private int windowHeight, windowWidth, rectSize;
 
     public MemoryCards(Context context) {
@@ -40,6 +40,10 @@ public class MemoryCards extends View {
         green = getPaint(0xff00ff00);
         red = getPaint(0xffff0000);
         purple = getPaint(0xffff00ff);
+        midnightBlue = getPaint(0xff2c3e50);
+        concrete = getPaint(0xff95a5a6);
+        sunflower = getPaint(0xfff1c40f);
+        carrot = getPaint(0xffe67e22);
 
         setWindowDimensions();
         rectSize = windowHeight < windowWidth ? windowHeight / 4 : windowWidth / 4;
@@ -81,8 +85,8 @@ public class MemoryCards extends View {
         int pointerID = event.getPointerId(event.getActionIndex());
 
         if (actionMasked == MotionEvent.ACTION_DOWN) {
-            float x  = event.getX(pointerID);
-            float y = event.getY(pointerID);
+            int x  = (int)event.getX(pointerID) / rectSize;
+            int y = (int)event.getY(pointerID) / rectSize;
             Log.d("MemoryCardView: ", "Action down event at (" + x + ", " + y + ")");
         } else if(actionMasked == MotionEvent.ACTION_MOVE) {
             Log.d("MemoryCardView: ", "Action move event");
