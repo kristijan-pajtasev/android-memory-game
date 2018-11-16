@@ -6,8 +6,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -41,7 +39,12 @@ public class MemoryCards extends View {
         for (int i = 0; i < 16; i++) {
             cardsPlaces.add(new Rect(0, 0, 200, 200));
         }
-
+//        DisplayMetrics displayMetrics = new DisplayMetrics();
+////        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+//        ((Activity) getContext()).getWindowManager()
+//                .getDefaultDisplay()
+//                .getMetrics(displayMetrics);
+//        int height = displayMetrics.heightPixels;
     }
 
     @Override
@@ -51,6 +54,7 @@ public class MemoryCards extends View {
             canvas.save();
             canvas.translate((i % 4) * 250, ((int)(i/4)) * 250);
             canvas.drawRect(cardsPlaces.get(i), red);
+            canvas.restore();
         }
     }
 
@@ -60,23 +64,23 @@ public class MemoryCards extends View {
         return paint;
     }
 
-    public boolean onTouchEvent(MotionEvent event) {
-        int actionMasked = event.getActionMasked();
-        int pointerID = event.getPointerId(event.getActionIndex());
-
-        if (actionMasked == MotionEvent.ACTION_DOWN) {
-            float x  = event.getX(pointerID);
-            float y = event.getY(pointerID);
-            Log.d("MemoryCardView: ", "Action down event at (" + x + ", " + y + ")");
-        } else if(actionMasked == MotionEvent.ACTION_MOVE) {
-            Log.d("MemoryCardView: ", "Action move event");
-
-        } else if(actionMasked == MotionEvent.ACTION_POINTER_DOWN){
-            Log.d("MemoryCardView: ", "Action pointer down event");
-        } else if(actionMasked == MotionEvent.ACTION_POINTER_UP) {
-            Log.d("MemoryCardView: ", "Action pointer up event");
-        }
-        invalidate();
-        return super.onTouchEvent(event);
-    }
+//    public boolean onTouchEvent(MotionEvent event) {
+//        int actionMasked = event.getActionMasked();
+//        int pointerID = event.getPointerId(event.getActionIndex());
+//
+//        if (actionMasked == MotionEvent.ACTION_DOWN) {
+//            float x  = event.getX(pointerID);
+//            float y = event.getY(pointerID);
+//            Log.d("MemoryCardView: ", "Action down event at (" + x + ", " + y + ")");
+//        } else if(actionMasked == MotionEvent.ACTION_MOVE) {
+//            Log.d("MemoryCardView: ", "Action move event");
+//
+//        } else if(actionMasked == MotionEvent.ACTION_POINTER_DOWN){
+//            Log.d("MemoryCardView: ", "Action pointer down event");
+//        } else if(actionMasked == MotionEvent.ACTION_POINTER_UP) {
+//            Log.d("MemoryCardView: ", "Action pointer up event");
+//        }
+//        invalidate();
+//        return super.onTouchEvent(event);
+//    }
 }
