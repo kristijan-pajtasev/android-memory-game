@@ -1,11 +1,13 @@
 package com.kristijan_pajtasev.assignment02.views;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 public class MemoryCards extends View {
     private ArrayList<Rect> cardsPlaces = new ArrayList<>();
     private Paint blue, red, green, purple, black;
+    private int windowHeight, windowWidth, rectSize;
 
     public MemoryCards(Context context) {
         super(context);
@@ -36,15 +39,22 @@ public class MemoryCards extends View {
         red = getPaint(0xffff0000);
         purple = getPaint(0xffff00ff);
 
+        setWindowDimensions();
+        rectSize = windowHeight < windowWidth ? windowHeight / 4 : windowWidth / 4;
+
+
         for (int i = 0; i < 16; i++) {
-            cardsPlaces.add(new Rect(0, 0, 200, 200));
+            cardsPlaces.add(new Rect(0, 0, rectSize, rectSize));
         }
-//        DisplayMetrics displayMetrics = new DisplayMetrics();
-////        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-//        ((Activity) getContext()).getWindowManager()
-//                .getDefaultDisplay()
-//                .getMetrics(displayMetrics);
-//        int height = displayMetrics.heightPixels;
+    }
+
+    private void setWindowDimensions() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) getContext()).getWindowManager()
+                .getDefaultDisplay()
+                .getMetrics(displayMetrics);
+        windowHeight = displayMetrics.heightPixels;
+        windowWidth = displayMetrics.widthPixels;
     }
 
     @Override
@@ -52,7 +62,7 @@ public class MemoryCards extends View {
         super.onDraw(canvas);
         for (int i = 0; i < 16; i++) {
             canvas.save();
-            canvas.translate((i % 4) * 250, ((int)(i/4)) * 250);
+            canvas.translate((i % 4) * rectSize, (i/4) * rectSize);
             canvas.drawRect(cardsPlaces.get(i), red);
             canvas.restore();
         }
