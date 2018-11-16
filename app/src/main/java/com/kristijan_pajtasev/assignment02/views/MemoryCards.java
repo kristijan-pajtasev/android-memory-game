@@ -73,7 +73,8 @@ public class MemoryCards extends View {
         for (int i = 0; i < 16; i++) {
             canvas.save();
             canvas.translate((i % 4) * rectSize, (i/4) * rectSize);
-            canvas.drawRect(cardsPlaces.get(i), cards.get(i).cardFlipped() ? cards.get(i).color : red);
+            Paint paint = cards.get(i).cardFlipped() || cards.get(i).cardTemporaryFlipped() ? cards.get(i).color : red;
+            canvas.drawRect(cardsPlaces.get(i), paint);
             canvas.restore();
         }
     }
@@ -92,7 +93,6 @@ public class MemoryCards extends View {
             int x  = (int)event.getX(pointerID) / rectSize;
             int y = (int)event.getY(pointerID) / rectSize;
             Log.d("MemoryCardView: ", "Action down event at (" + x + ", " + y + ")");
-
             flipCard(cards.get(x + y * 4));
         } else if(actionMasked == MotionEvent.ACTION_MOVE) {
             Log.d("MemoryCardView: ", "Action move event");
@@ -107,7 +107,32 @@ public class MemoryCards extends View {
     }
 
     public void flipCard(Card card) {
-        if(!card.cardFlipped() && !card.cardTemporaryFlipped()) card.flipCard();
+        if(!card.cardFlipped() && !card.cardTemporaryFlipped()) {
+            card.temporaryFlipCard();
+//            invalidate();
+            new FlipBack(cards, this).start();
+        }
+    }
+}
+
+class FlipBack extends Thread {
+    private ArrayList<Card> cards;
+    MemoryCards view;
+
+    public FlipBack(ArrayList<Card> cards, MemoryCards view) {
+        this.cards = cards;
+        this.view = view;
+    }
+
+    @Override
+    public void run() {
+        try {
+            Thread.sleep(1500);
+            for(Card card: cards) if(card.cardTemporaryFlipped()) card.flipBack();
+            view.invalidate();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
 
@@ -131,7 +156,12 @@ class Card {
         isFlipped = !isFlipped;
     }
 
-    public void temporayFlipCard() {
-        isTemporaryFlipped = !isTemporaryFlipped;
+    public void temporaryFlipCard() {
+        isTemporaryFlipped = true;
+    }
+
+    public void flipBack() {
+        isTemporaryFlipped = false;
+        isFlipped = false;
     }
 }
