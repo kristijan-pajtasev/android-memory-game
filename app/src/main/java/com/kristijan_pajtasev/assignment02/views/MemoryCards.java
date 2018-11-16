@@ -73,7 +73,7 @@ public class MemoryCards extends View {
         for (int i = 0; i < 16; i++) {
             canvas.save();
             canvas.translate((i % 4) * rectSize, (i/4) * rectSize);
-            canvas.drawRect(cardsPlaces.get(i), cards.get(i).isFlipped ? cards.get(i).color : red);
+            canvas.drawRect(cardsPlaces.get(i), cards.get(i).cardFlipped() ? cards.get(i).color : red);
             canvas.restore();
         }
     }
@@ -108,13 +108,25 @@ public class MemoryCards extends View {
 
 class Card {
     Paint color;
-    boolean isFlipped = false;
+    private boolean isFlipped = false, isTemporaryFlipped;
 
     public Card(Paint color) {
         this.color = color;
     }
 
+    public boolean cardFlipped() {
+        return isFlipped;
+    }
+
+    public boolean cardTemporaryFlipped() {
+        return isTemporaryFlipped;
+    }
+
     public void flipCard() {
         isFlipped = !isFlipped;
+    }
+
+    public void temporayFlipCard() {
+        isTemporaryFlipped = !isTemporaryFlipped;
     }
 }
