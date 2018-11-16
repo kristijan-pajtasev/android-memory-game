@@ -92,7 +92,8 @@ public class MemoryCards extends View {
             int x  = (int)event.getX(pointerID) / rectSize;
             int y = (int)event.getY(pointerID) / rectSize;
             Log.d("MemoryCardView: ", "Action down event at (" + x + ", " + y + ")");
-            cards.get(x + y * 4).flipCard();
+
+            flipCard(cards.get(x + y * 4));
         } else if(actionMasked == MotionEvent.ACTION_MOVE) {
             Log.d("MemoryCardView: ", "Action move event");
 
@@ -103,6 +104,10 @@ public class MemoryCards extends View {
         }
         invalidate();
         return super.onTouchEvent(event);
+    }
+
+    public void flipCard(Card card) {
+        if(!card.cardFlipped() && !card.cardTemporaryFlipped()) card.flipCard();
     }
 }
 
