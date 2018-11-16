@@ -8,6 +8,8 @@ import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -74,23 +76,23 @@ public class MemoryCards extends View {
         return paint;
     }
 
-//    public boolean onTouchEvent(MotionEvent event) {
-//        int actionMasked = event.getActionMasked();
-//        int pointerID = event.getPointerId(event.getActionIndex());
-//
-//        if (actionMasked == MotionEvent.ACTION_DOWN) {
-//            float x  = event.getX(pointerID);
-//            float y = event.getY(pointerID);
-//            Log.d("MemoryCardView: ", "Action down event at (" + x + ", " + y + ")");
-//        } else if(actionMasked == MotionEvent.ACTION_MOVE) {
-//            Log.d("MemoryCardView: ", "Action move event");
-//
-//        } else if(actionMasked == MotionEvent.ACTION_POINTER_DOWN){
-//            Log.d("MemoryCardView: ", "Action pointer down event");
-//        } else if(actionMasked == MotionEvent.ACTION_POINTER_UP) {
-//            Log.d("MemoryCardView: ", "Action pointer up event");
-//        }
-//        invalidate();
-//        return super.onTouchEvent(event);
-//    }
+    public boolean onTouchEvent(MotionEvent event) {
+        int actionMasked = event.getActionMasked();
+        int pointerID = event.getPointerId(event.getActionIndex());
+
+        if (actionMasked == MotionEvent.ACTION_DOWN) {
+            float x  = event.getX(pointerID);
+            float y = event.getY(pointerID);
+            Log.d("MemoryCardView: ", "Action down event at (" + x + ", " + y + ")");
+        } else if(actionMasked == MotionEvent.ACTION_MOVE) {
+            Log.d("MemoryCardView: ", "Action move event");
+
+        } else if(actionMasked == MotionEvent.ACTION_POINTER_DOWN){
+            Log.d("MemoryCardView: ", "Action pointer down event");
+        } else if(actionMasked == MotionEvent.ACTION_POINTER_UP) {
+            Log.d("MemoryCardView: ", "Action pointer up event");
+        }
+        invalidate();
+        return super.onTouchEvent(event);
+    }
 }
