@@ -19,6 +19,7 @@ public class MemoryCards extends View {
     private Paint blue, red, carrot, green, purple, black, midnightBlue, concrete, sunflower;
     private int windowHeight, windowWidth, rectSize;
     private ArrayList<Card> cards = new ArrayList<>();
+    private boolean firstCardFlipped = false;
 
     public MemoryCards(Context context) {
         super(context);
@@ -109,8 +110,10 @@ public class MemoryCards extends View {
     public void flipCard(Card card) {
         if(!card.cardFlipped() && !card.cardTemporaryFlipped()) {
             card.temporaryFlipCard();
-//            invalidate();
-            new FlipBack(cards, this).start();
+            if(firstCardFlipped) {
+                new FlipBack(cards, this).start();
+                firstCardFlipped = false;
+            } else firstCardFlipped = true;
         }
     }
 }
