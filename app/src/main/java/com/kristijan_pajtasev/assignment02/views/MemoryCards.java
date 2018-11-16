@@ -18,6 +18,7 @@ public class MemoryCards extends View {
     private ArrayList<Rect> cardsPlaces = new ArrayList<>();
     private Paint blue, red, carrot, green, purple, black, midnightBlue, concrete, sunflower;
     private int windowHeight, windowWidth, rectSize;
+    private ArrayList<Card> cards = new ArrayList<>();
 
     public MemoryCards(Context context) {
         super(context);
@@ -48,11 +49,14 @@ public class MemoryCards extends View {
         setWindowDimensions();
         rectSize = windowHeight < windowWidth ? windowHeight / 4 : windowWidth / 4;
 
+        Paint colorPalet[] = {black, blue, midnightBlue, green, purple, concrete, sunflower, carrot};
 
         for (int i = 0; i < 16; i++) {
             cardsPlaces.add(new Rect(0, 0, rectSize, rectSize));
+            cards.add(new Card(colorPalet[i / 2]));
         }
     }
+
 
     private void setWindowDimensions() {
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -69,7 +73,7 @@ public class MemoryCards extends View {
         for (int i = 0; i < 16; i++) {
             canvas.save();
             canvas.translate((i % 4) * rectSize, (i/4) * rectSize);
-            canvas.drawRect(cardsPlaces.get(i), red);
+            canvas.drawRect(cardsPlaces.get(i), cards.get(i).isFlipped ? cards.get(i).color : red);
             canvas.restore();
         }
     }
@@ -88,6 +92,7 @@ public class MemoryCards extends View {
             int x  = (int)event.getX(pointerID) / rectSize;
             int y = (int)event.getY(pointerID) / rectSize;
             Log.d("MemoryCardView: ", "Action down event at (" + x + ", " + y + ")");
+            cards.get(x + y * 4).flipCard();
         } else if(actionMasked == MotionEvent.ACTION_MOVE) {
             Log.d("MemoryCardView: ", "Action move event");
 
@@ -98,5 +103,18 @@ public class MemoryCards extends View {
         }
         invalidate();
         return super.onTouchEvent(event);
+    }
+}
+
+class Card {
+    Paint color;
+    boolean isFlipped = false;
+
+    public Card(Paint color) {
+        this.color = color;
+    }
+
+    public void flipCard() {
+        isFlipped = !isFlipped;
     }
 }
