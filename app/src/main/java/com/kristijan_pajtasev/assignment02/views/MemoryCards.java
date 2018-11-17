@@ -15,11 +15,11 @@ import android.view.View;
 import java.util.ArrayList;
 
 public class MemoryCards extends View {
-    private ArrayList<Rect> cardsPlaces = new ArrayList<>();
+    private ArrayList<Rect> cardsPlaces;
     private Paint blue, red, carrot, green, purple, black, midnightBlue, concrete, sunflower;
     private int windowHeight, windowWidth, rectSize;
-    private ArrayList<Card> cards = new ArrayList<>();
-    private boolean firstCardFlipped = false;
+    private ArrayList<Card> cards;
+    private boolean firstCardFlipped;
 
     public MemoryCards(Context context) {
         super(context);
@@ -37,6 +37,10 @@ public class MemoryCards extends View {
     }
 
     public void initialize() {
+        cardsPlaces = new ArrayList<>();
+        cards = new ArrayList<>();
+        firstCardFlipped = false;
+
         black = getPaint(0xFF000000);
         blue = getPaint(0xff0000ff);
         green = getPaint(0xff00ff00);
@@ -94,7 +98,9 @@ public class MemoryCards extends View {
             int x  = (int)event.getX(pointerID) / rectSize;
             int y = (int)event.getY(pointerID) / rectSize;
             Log.d("MemoryCardView: ", "Action down event at (" + x + ", " + y + ")");
-            flipCard(cards.get(x + y * 4));
+            int cardIndex = x + y * 4;
+            if(cardIndex < cards.size())
+                flipCard(cards.get(cardIndex));
         } else if(actionMasked == MotionEvent.ACTION_MOVE) {
             Log.d("MemoryCardView: ", "Action move event");
 
@@ -132,6 +138,10 @@ public class MemoryCards extends View {
             else if(card.cardTemporaryFlipped() && null != paint) return paint.equals(card.color);
         }
         return false;
+    }
+
+    public void reset() {
+        initialize();
     }
 }
 
