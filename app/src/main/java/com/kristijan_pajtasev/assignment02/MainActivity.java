@@ -3,7 +3,9 @@ package com.kristijan_pajtasev.assignment02;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -19,8 +21,17 @@ public class MainActivity extends AppCompatActivity {
 
         setWindowDimensions();
 
-        MemoryCards memoryCardsView = (MemoryCards)findViewById(R.id.memoryCardsView);
+        final MemoryCards memoryCardsView = (MemoryCards)findViewById(R.id.memoryCardsView);
         memoryCardsView.setLayoutParams(new RelativeLayout.LayoutParams(windowWidth, windowHeight));
+
+        Button gameResetButton = (Button)findViewById(R.id.gameResetButton);
+        gameResetButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                memoryCardsView.reset();
+            }
+        });
     }
 
     private void setWindowDimensions() {

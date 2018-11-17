@@ -142,6 +142,7 @@ public class MemoryCards extends View {
 
     public void reset() {
         initialize();
+        invalidate();
     }
 }
 
