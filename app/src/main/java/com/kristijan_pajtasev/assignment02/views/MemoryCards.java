@@ -111,10 +111,27 @@ public class MemoryCards extends View {
         if(!card.cardFlipped() && !card.cardTemporaryFlipped()) {
             card.temporaryFlipCard();
             if(firstCardFlipped) {
-                new FlipBack(cards, this).start();
                 firstCardFlipped = false;
+                if(isMatch()) {
+                    flipTemporaryFlippedCards();
+                } else {
+                    new FlipBack(cards, this).start();
+                }
             } else firstCardFlipped = true;
         }
+    }
+
+    public void flipTemporaryFlippedCards() {
+        for(Card card: cards) if(card.cardTemporaryFlipped()) card.flipCard();
+    }
+
+    public boolean isMatch() {
+        Paint paint = null;
+        for(Card card: cards) {
+            if(card.cardTemporaryFlipped() && null == paint) paint = card.color;
+            else if(card.cardTemporaryFlipped() && null != paint) return paint.equals(card.color);
+        }
+        return false;
     }
 }
 
@@ -156,7 +173,8 @@ class Card {
     }
 
     public void flipCard() {
-        isFlipped = !isFlipped;
+        isTemporaryFlipped = false;
+        isFlipped = true;
     }
 
     public void temporaryFlipCard() {
