@@ -65,6 +65,7 @@ public class MemoryCards extends View {
 
         setWindowDimensions();
         rectSize = windowHeight < windowWidth ? windowHeight / 4 : windowWidth / 4;
+        rectSize -= 10;
 
         Paint colorPalet[] = {black, blue, midnightBlue, green, purple, concrete, sunflower, carrot};
 
@@ -89,7 +90,7 @@ public class MemoryCards extends View {
         super.onDraw(canvas);
         for (int i = 0; i < 16; i++) {
             canvas.save();
-            canvas.translate((i % 4) * rectSize, (i/4) * rectSize);
+            canvas.translate((i % 4) * (rectSize + 10) + 5, (i/4) * (rectSize + 10) + 5);
             Paint paint = cards.get(i).cardFlipped() || cards.get(i).cardTemporaryFlipped() ? cards.get(i).color : red;
             canvas.drawRect(cardsPlaces.get(i), paint);
             canvas.restore();
