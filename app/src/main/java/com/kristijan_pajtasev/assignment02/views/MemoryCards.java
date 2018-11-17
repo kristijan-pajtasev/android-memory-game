@@ -130,7 +130,7 @@ class FlipBack extends Thread {
     @Override
     public void run() {
         try {
-            Thread.sleep(1500);
+            Thread.sleep(500);
             for(Card card: cards) if(card.cardTemporaryFlipped()) card.flipBack();
             view.invalidate();
         } catch (InterruptedException e) {
