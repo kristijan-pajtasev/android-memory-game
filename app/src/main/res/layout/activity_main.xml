@@ -6,7 +6,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/memoryCardsView"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/scoreLayout"/>
+
+    <LinearLayout
+        android:id="@+id/scoreLayout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/memoryCardsView"
+        android:layout_above="@id/gameResetButton">
+
+        <TextView
+            android:id="@+id/playerOneScore"
+            android:layout_width="0dp"
+            android:textAlignment="center"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/playerTwoScore"
+            android:layout_width="0dp"
+            android:textAlignment="center"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/gameResetButton"

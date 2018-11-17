@@ -8,11 +8,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.kristijan_pajtasev.assignment02.views.MemoryCards;
 
 public class MainActivity extends AppCompatActivity {
     private int windowHeight, windowWidth;
+    private TextView playerOneScore, playerTwoScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +24,15 @@ public class MainActivity extends AppCompatActivity {
         setWindowDimensions();
 
         final MemoryCards memoryCardsView = (MemoryCards)findViewById(R.id.memoryCardsView);
-        memoryCardsView.setLayoutParams(new RelativeLayout.LayoutParams(windowWidth, windowHeight));
+        RelativeLayout.LayoutParams layoutParams;
+        if(windowHeight > windowWidth)
+            layoutParams = new RelativeLayout.LayoutParams(windowWidth, windowWidth);
+        else
+            layoutParams = new RelativeLayout.LayoutParams(windowHeight, windowHeight);
+
+        memoryCardsView.setLayoutParams(layoutParams);
+
+        initializeTextViews();
 
         Button gameResetButton = (Button)findViewById(R.id.gameResetButton);
         gameResetButton.setOnClickListener(new View.OnClickListener(){
@@ -30,8 +40,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 memoryCardsView.reset();
+                setPlayerOneScore(0);
+                setPlayerTwoScore(0);
             }
         });
+    }
+
+    public void initializeTextViews() {
+        playerOneScore = (TextView)findViewById(R.id.playerOneScore);
+        playerTwoScore = (TextView)findViewById(R.id.playerTwoScore);
+
+        setPlayerOneScore(0);
+        setPlayerTwoScore(0);
+    }
+
+    public void setPlayerOneScore(int score) {
+        playerOneScore.setText("Player 1: " + score);
+    }
+
+    public void setPlayerTwoScore(int score) {
+        playerTwoScore.setText("Player 2: " + score);
     }
 
     private void setWindowDimensions() {
