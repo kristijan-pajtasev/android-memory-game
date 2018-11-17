@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -12,31 +13,41 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.kristijan_pajtasev.assignment02.MainActivity;
+
 import java.util.ArrayList;
 
 public class MemoryCards extends View {
     private ArrayList<Rect> cardsPlaces;
     private Paint blue, red, carrot, green, purple, black, midnightBlue, concrete, sunflower;
-    private int windowHeight, windowWidth, rectSize;
+    private int windowHeight, windowWidth, rectSize, playerOneScore, playerTwoScore;
     private ArrayList<Card> cards;
-    private boolean firstCardFlipped, clickDisabled;
+    private boolean firstCardFlipped, clickDisabled, firstPlayerPlaying;
+    private Context context;
 
     public MemoryCards(Context context) {
         super(context);
+        this.context = context;
         initialize();
     }
 
     public MemoryCards(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
         initialize();
     }
 
     public MemoryCards(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.context = context;
         initialize();
     }
 
     public void initialize() {
+        firstPlayerPlaying = true;
+        playerOneScore = 0;
+        playerTwoScore = 0;
+
         cardsPlaces = new ArrayList<>();
         cards = new ArrayList<>();
         firstCardFlipped = false;
@@ -122,11 +133,23 @@ public class MemoryCards extends View {
                 firstCardFlipped = false;
                 if(isMatch()) {
                     flipTemporaryFlippedCards();
+                    updateScore();
                 } else {
                     clickDisabled = true;
                     new FlipBack(cards, this).start();
                 }
+                firstPlayerPlaying = !firstPlayerPlaying;
             } else firstCardFlipped = true;
+        }
+    }
+
+    public void updateScore() {
+        if(firstPlayerPlaying) {
+            playerOneScore++;
+            ((MainActivity)context).setPlayerOneScore(playerOneScore);
+        } else {
+            playerTwoScore++;
+            ((MainActivity)context).setPlayerTwoScore(playerTwoScore);
         }
     }
 
