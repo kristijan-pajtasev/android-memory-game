@@ -19,7 +19,7 @@ public class MemoryCards extends View {
     private Paint blue, red, carrot, green, purple, black, midnightBlue, concrete, sunflower;
     private int windowHeight, windowWidth, rectSize;
     private ArrayList<Card> cards;
-    private boolean firstCardFlipped;
+    private boolean firstCardFlipped, clickDisabled;
 
     public MemoryCards(Context context) {
         super(context);
@@ -40,6 +40,7 @@ public class MemoryCards extends View {
         cardsPlaces = new ArrayList<>();
         cards = new ArrayList<>();
         firstCardFlipped = false;
+        clickDisabled = false;
 
         black = getPaint(0xFF000000);
         blue = getPaint(0xff0000ff);
@@ -95,6 +96,7 @@ public class MemoryCards extends View {
         int pointerID = event.getPointerId(event.getActionIndex());
 
         if (actionMasked == MotionEvent.ACTION_DOWN) {
+            if(clickDisabled) return super.onTouchEvent(event);
             int x  = (int)event.getX(pointerID) / rectSize;
             int y = (int)event.getY(pointerID) / rectSize;
             Log.d("MemoryCardView: ", "Action down event at (" + x + ", " + y + ")");
@@ -121,6 +123,7 @@ public class MemoryCards extends View {
                 if(isMatch()) {
                     flipTemporaryFlippedCards();
                 } else {
+                    clickDisabled = true;
                     new FlipBack(cards, this).start();
                 }
             } else firstCardFlipped = true;
@@ -144,6 +147,10 @@ public class MemoryCards extends View {
         initialize();
         invalidate();
     }
+
+    public void enableClick() {
+        clickDisabled = false;
+    }
 }
 
 class FlipBack extends Thread {
@@ -160,6 +167,7 @@ class FlipBack extends Thread {
         try {
             Thread.sleep(500);
             for(Card card: cards) if(card.cardTemporaryFlipped()) card.flipBack();
+            view.enableClick();
             view.invalidate();
         } catch (InterruptedException e) {
             e.printStackTrace();
