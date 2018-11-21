@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -13,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.kristijan_pajtasev.assignment02.MainActivity;
+import com.kristijan_pajtasev.assignment02.R;
 import com.kristijan_pajtasev.assignment02.models.Card;
 import com.kristijan_pajtasev.assignment02.views.runnables.FlipBack;
 
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 
 public class MemoryCards extends View {
     private ArrayList<Rect> cardsPlaces;
-    private Paint blue, red, carrot, green, purple, black, midnightBlue, concrete, sunflower;
+    private Paint blue, hiddenCardBackgroundPaint, carrot, green, purple, black, midnightBlue, concrete, sunflower;
     private int windowHeight, windowWidth, rectSize, playerOneScore, playerTwoScore;
     private ArrayList<Card> cards;
     private boolean firstCardFlipped, clickDisabled, firstPlayerPlaying, isGameOver;
@@ -58,7 +60,7 @@ public class MemoryCards extends View {
         black = getPaint(0xFF000000);
         blue = getPaint(0xff0000ff);
         green = getPaint(0xff00ff00);
-        red = getPaint(0xffff0000);
+        hiddenCardBackgroundPaint = getPaint(0xff37474F);
         purple = getPaint(0xffff00ff);
         midnightBlue = getPaint(0xff2c3e50);
         concrete = getPaint(0xff95a5a6);
@@ -101,12 +103,28 @@ public class MemoryCards extends View {
 
     private void drawRect(Canvas canvas, int index) {
         canvas.save();
-        canvas.translate((index % 4) * (rectSize + 10) + 5, (index/4) * (rectSize + 10) + 5);
         Card card = cards.get(index);
+        canvas.translate((index % 4) * (rectSize + 10) + 5, (index/4) * (rectSize + 10) + 5);
         Paint paint = card.cardFlipped() || card.cardTemporaryFlipped() ?
-                card.getColor() : red;
+                card.getColor() : hiddenCardBackgroundPaint;
         canvas.drawRect(cardsPlaces.get(index), paint);
+
+        if(!(card.cardTemporaryFlipped() || card.cardFlipped())) {
+            drawCardIcon(canvas, index, R.drawable.ic_flip_to_front);
+        }
+
         canvas.restore();
+    }
+
+    public void drawCardIcon(Canvas canvas, int index, int image) {
+        int left = 20,
+            right = rectSize - 20,
+            bottom = rectSize - 20,
+            top = 20;
+
+        Drawable d = getResources().getDrawable(image);
+        d.setBounds(left, top, right, bottom);
+        d.draw(canvas);
     }
 
     private Paint getPaint(int color) {
