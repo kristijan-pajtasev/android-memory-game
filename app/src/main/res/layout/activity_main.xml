@@ -13,7 +13,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/gameStatus"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="22dp"/>
 
     </LinearLayout>
 
@@ -24,8 +25,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/gameResetButton"
+        android:layout_marginTop="10dp"
         android:layout_below="@id/statusLayout">
-
 
         <LinearLayout
             android:orientation="vertical"
@@ -33,15 +34,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="1" >
             <TextView
+                android:id="@+id/playerOneScore"
+                android:layout_width="match_parent"
+                android:textAlignment="center"
+                android:textSize="22dp"
+                android:layout_height="wrap_content"/>
+            <TextView
                 android:layout_width="match_parent"
                 android:textAlignment="center"
                 android:layout_height="wrap_content"
                 android:text="@string/player_1_score"/>
-            <TextView
-                android:id="@+id/playerOneScore"
-                android:layout_width="match_parent"
-                android:textAlignment="center"
-                android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <LinearLayout
@@ -50,15 +52,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="1" >
             <TextView
+                android:id="@+id/playerTwoScore"
+                android:layout_width="match_parent"
+                android:textAlignment="center"
+                android:textSize="22dp"
+                android:layout_height="wrap_content" />
+            <TextView
                 android:layout_width="match_parent"
                 android:textAlignment="center"
                 android:layout_height="wrap_content"
                 android:text="@string/player_2_score"/>
-            <TextView
-                android:id="@+id/playerTwoScore"
-                android:layout_width="match_parent"
-                android:textAlignment="center"
-                android:layout_height="wrap_content" />
         </LinearLayout>
 
 
