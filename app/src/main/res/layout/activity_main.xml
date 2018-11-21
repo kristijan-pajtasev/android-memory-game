@@ -2,20 +2,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.kristijan_pajtasev.assignment02.views.MemoryCards
+    <LinearLayout
+        android:id="@+id/statusLayout"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/memoryCardsView"
-        android:layout_alignParentTop="true"
-        android:layout_above="@id/scoreLayout"/>
+        android:layout_alignParentTop="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/gameStatus"
+            android:textAlignment="center"
+            android:text="status"/>
+
+        <Button
+            android:id="@+id/gameResetButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/reset_game"/>
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/scoreLayout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/memoryCardsView"
-        android:layout_above="@id/gameResetButton">
+        android:layout_below="@id/statusLayout">
 
         <TextView
             android:id="@+id/playerOneScore"
@@ -32,10 +48,14 @@
             android:layout_weight="1" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/gameResetButton"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="@string/reset_game"/>
+        android:background="#ffffff">
+        <com.kristijan_pajtasev.assignment02.views.MemoryCards
+            android:id="@+id/memoryCardsView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
 </RelativeLayout>
