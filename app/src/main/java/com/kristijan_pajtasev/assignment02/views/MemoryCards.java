@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -14,6 +13,8 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.kristijan_pajtasev.assignment02.MainActivity;
+import com.kristijan_pajtasev.assignment02.models.Card;
+import com.kristijan_pajtasev.assignment02.views.runnables.FlipBack;
 
 import java.util.ArrayList;
 
@@ -95,7 +96,7 @@ public class MemoryCards extends View {
         for (int i = 0; i < 16; i++) {
             canvas.save();
             canvas.translate((i % 4) * (rectSize + 10) + 5, (i/4) * (rectSize + 10) + 5);
-            Paint paint = cards.get(i).cardFlipped() || cards.get(i).cardTemporaryFlipped() ? cards.get(i).color : red;
+            Paint paint = cards.get(i).cardFlipped() || cards.get(i).cardTemporaryFlipped() ? cards.get(i).getColor() : red;
             canvas.drawRect(cardsPlaces.get(i), paint);
             canvas.restore();
         }
@@ -166,8 +167,8 @@ public class MemoryCards extends View {
     public boolean isMatch() {
         Paint paint = null;
         for(Card card: cards) {
-            if(card.cardTemporaryFlipped() && null == paint) paint = card.color;
-            else if(card.cardTemporaryFlipped() && null != paint) return paint.equals(card.color);
+            if(card.cardTemporaryFlipped() && null == paint) paint = card.getColor();
+            else if(card.cardTemporaryFlipped() && null != paint) return paint.equals(card.getColor());
         }
         return false;
     }
@@ -183,55 +184,5 @@ public class MemoryCards extends View {
     }
 }
 
-class FlipBack extends Thread {
-    private ArrayList<Card> cards;
-    MemoryCards view;
 
-    public FlipBack(ArrayList<Card> cards, MemoryCards view) {
-        this.cards = cards;
-        this.view = view;
-    }
 
-    @Override
-    public void run() {
-        try {
-            Thread.sleep(500);
-            for(Card card: cards) if(card.cardTemporaryFlipped()) card.flipBack();
-            view.enableClick();
-            view.invalidate();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-}
-
-class Card {
-    Paint color;
-    private boolean isFlipped = false, isTemporaryFlipped;
-
-    public Card(Paint color) {
-        this.color = color;
-    }
-
-    public boolean cardFlipped() {
-        return isFlipped;
-    }
-
-    public boolean cardTemporaryFlipped() {
-        return isTemporaryFlipped;
-    }
-
-    public void flipCard() {
-        isTemporaryFlipped = false;
-        isFlipped = true;
-    }
-
-    public void temporaryFlipCard() {
-        isTemporaryFlipped = true;
-    }
-
-    public void flipBack() {
-        isTemporaryFlipped = false;
-        isFlipped = false;
-    }
-}
