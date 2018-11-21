@@ -64,7 +64,6 @@ public class MemoryCards extends View {
         carrot = getPaint(0xffe67e22);
 
         setWindowDimensions();
-//        setActivePlayerLabel(firstPlayerPlaying ? 1 : 2);
         rectSize = windowHeight < windowWidth ? windowHeight / 4 : windowWidth / 4;
         rectSize -= 10;
 
@@ -175,6 +174,7 @@ public class MemoryCards extends View {
 
     public void reset() {
         initialize();
+        setActivePlayerLabel(1);
         invalidate();
     }
 
