@@ -95,12 +95,18 @@ public class MemoryCards extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         for (int i = 0; i < 16; i++) {
-            canvas.save();
-            canvas.translate((i % 4) * (rectSize + 10) + 5, (i/4) * (rectSize + 10) + 5);
-            Paint paint = cards.get(i).cardFlipped() || cards.get(i).cardTemporaryFlipped() ? cards.get(i).getColor() : red;
-            canvas.drawRect(cardsPlaces.get(i), paint);
-            canvas.restore();
+            drawRect(canvas, i);
         }
+    }
+
+    private void drawRect(Canvas canvas, int index) {
+        canvas.save();
+        canvas.translate((index % 4) * (rectSize + 10) + 5, (index/4) * (rectSize + 10) + 5);
+        Card card = cards.get(index);
+        Paint paint = card.cardFlipped() || card.cardTemporaryFlipped() ?
+                card.getColor() : red;
+        canvas.drawRect(cardsPlaces.get(index), paint);
+        canvas.restore();
     }
 
     private Paint getPaint(int color) {
@@ -150,11 +156,12 @@ public class MemoryCards extends View {
             clickDisabled = true;
             new FlipBack(cards, this).start();
         }
-        firstPlayerPlaying = !firstPlayerPlaying;
         checkForEndGame();
 
-        if(!isGameOver)
+        if(!isGameOver) {
+            firstPlayerPlaying = !firstPlayerPlaying;
             setActivePlayerLabel(firstPlayerPlaying ? 1 : 2);
+        }
     }
 
     private void checkForEndGame() {
@@ -163,7 +170,7 @@ public class MemoryCards extends View {
             isGameOver = true;
             if(playerOneScore == playerTwoScore) ((MainActivity)context).setWinningPlayerStatus(0);
             else {
-                int winningPlayer = playerOneScore > playerTwoScore ? 1 : -1;
+                int winningPlayer = playerOneScore > playerTwoScore ? 1 : 2;
                 ((MainActivity)context).setWinningPlayerStatus(winningPlayer);
             }
 
