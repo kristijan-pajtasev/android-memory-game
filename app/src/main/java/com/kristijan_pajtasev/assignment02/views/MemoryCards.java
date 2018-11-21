@@ -23,7 +23,7 @@ public class MemoryCards extends View {
     private Paint blue, red, carrot, green, purple, black, midnightBlue, concrete, sunflower;
     private int windowHeight, windowWidth, rectSize, playerOneScore, playerTwoScore;
     private ArrayList<Card> cards;
-    private boolean firstCardFlipped, clickDisabled, firstPlayerPlaying;
+    private boolean firstCardFlipped, clickDisabled, firstPlayerPlaying, isGameOver;
     private Context context;
 
     public MemoryCards(Context context) {
@@ -46,6 +46,7 @@ public class MemoryCards extends View {
 
     public void initialize() {
         firstPlayerPlaying = true;
+        isGameOver = false;
         playerOneScore = 0;
         playerTwoScore = 0;
 
@@ -109,10 +110,12 @@ public class MemoryCards extends View {
     }
 
     public boolean onTouchEvent(MotionEvent event) {
+        if(isGameOver) return super.onTouchEvent(event);
+
         int actionMasked = event.getActionMasked();
-        int pointerID = event.getPointerId(event.getActionIndex());
 
         if (actionMasked == MotionEvent.ACTION_DOWN) {
+            int pointerID = event.getPointerId(event.getActionIndex());
             if(clickDisabled) return super.onTouchEvent(event);
             int x  = (int)event.getX(pointerID) / rectSize;
             int y = (int)event.getY(pointerID) / rectSize;
@@ -120,13 +123,6 @@ public class MemoryCards extends View {
             int cardIndex = x + y * 4;
             if(cardIndex < cards.size())
                 flipCard(cards.get(cardIndex));
-        } else if(actionMasked == MotionEvent.ACTION_MOVE) {
-            Log.d("MemoryCardView: ", "Action move event");
-
-        } else if(actionMasked == MotionEvent.ACTION_POINTER_DOWN){
-            Log.d("MemoryCardView: ", "Action pointer down event");
-        } else if(actionMasked == MotionEvent.ACTION_POINTER_UP) {
-            Log.d("MemoryCardView: ", "Action pointer up event");
         }
         invalidate();
         return super.onTouchEvent(event);
@@ -145,8 +141,24 @@ public class MemoryCards extends View {
                     new FlipBack(cards, this).start();
                 }
                 firstPlayerPlaying = !firstPlayerPlaying;
-                setActivePlayerLabel(firstPlayerPlaying ? 1 : 2);
+                checkForEndGame();
+
+                if(!isGameOver)
+                    setActivePlayerLabel(firstPlayerPlaying ? 1 : 2);
             } else firstCardFlipped = true;
+        }
+    }
+
+    private void checkForEndGame() {
+        if(playerOneScore > 4 || playerTwoScore > 4 ||
+                (playerOneScore == 4 && playerOneScore == playerTwoScore)) {
+            isGameOver = true;
+            if(playerOneScore == playerTwoScore) ((MainActivity)context).setWinningPlayerStatus(0);
+            else {
+                int winningPlayer = playerOneScore > playerTwoScore ? 1 : -1;
+                ((MainActivity)context).setWinningPlayerStatus(winningPlayer);
+            }
+
         }
     }
 

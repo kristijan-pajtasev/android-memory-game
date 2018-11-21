@@ -61,9 +61,22 @@ public class MainActivity extends AppCompatActivity {
         playerTwoScore.setText("" + score);
     }
 
+    public void setWinningPlayerStatus(int playerOrder) {
+        TextView statusLabel = findViewById(R.id.gameStatus);
+        switch(playerOrder) {
+            case 0:
+                statusLabel.setText("It is a draw");
+                break;
+            case 1:
+            case 2:
+                statusLabel.setText("Player " + playerOrder + " won");
+                break;
+        }
+    }
+
     public void setActivePlayerMessage(int playerNumber) {
         TextView statusLabel = findViewById(R.id.gameStatus);
-        statusLabel.setText("Player " + playerNumber + " playing.");
+        statusLabel.setText("Player " + playerNumber + " playing");
     }
 
     private void setWindowDimensions() {
