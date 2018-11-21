@@ -110,43 +110,51 @@ public class MemoryCards extends View {
     }
 
     public boolean onTouchEvent(MotionEvent event) {
-        if(isGameOver) return super.onTouchEvent(event);
+        if(isGameOver || clickDisabled) return super.onTouchEvent(event);
 
         int actionMasked = event.getActionMasked();
 
         if (actionMasked == MotionEvent.ACTION_DOWN) {
             int pointerID = event.getPointerId(event.getActionIndex());
-            if(clickDisabled) return super.onTouchEvent(event);
             int x  = (int)event.getX(pointerID) / rectSize;
             int y = (int)event.getY(pointerID) / rectSize;
+
             Log.d("MemoryCardView: ", "Action down event at (" + x + ", " + y + ")");
-            int cardIndex = x + y * 4;
-            if(cardIndex < cards.size())
-                flipCard(cards.get(cardIndex));
+            handleClickAction(x, y);
         }
         invalidate();
         return super.onTouchEvent(event);
+    }
+
+    public void handleClickAction(int x, int y) {
+        int cardIndex = x + y * 4;
+        if(cardIndex < cards.size())
+            flipCard(cards.get(cardIndex));
     }
 
     public void flipCard(Card card) {
         if(!card.cardFlipped() && !card.cardTemporaryFlipped()) {
             card.temporaryFlipCard();
             if(firstCardFlipped) {
-                firstCardFlipped = false;
-                if(isMatch()) {
-                    flipTemporaryFlippedCards();
-                    updateScore();
-                } else {
-                    clickDisabled = true;
-                    new FlipBack(cards, this).start();
-                }
-                firstPlayerPlaying = !firstPlayerPlaying;
-                checkForEndGame();
-
-                if(!isGameOver)
-                    setActivePlayerLabel(firstPlayerPlaying ? 1 : 2);
+                handleSecondCardFlip();
             } else firstCardFlipped = true;
         }
+    }
+
+    public void handleSecondCardFlip() {
+        firstCardFlipped = false;
+        if(isMatch()) {
+            flipTemporaryFlippedCards();
+            updateScore();
+        } else {
+            clickDisabled = true;
+            new FlipBack(cards, this).start();
+        }
+        firstPlayerPlaying = !firstPlayerPlaying;
+        checkForEndGame();
+
+        if(!isGameOver)
+            setActivePlayerLabel(firstPlayerPlaying ? 1 : 2);
     }
 
     private void checkForEndGame() {
