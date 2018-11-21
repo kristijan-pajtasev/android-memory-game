@@ -119,14 +119,14 @@ public class MemoryCards extends View {
                 card.getColor() : hiddenCardBackgroundPaint;
         canvas.drawRect(cardsPlaces.get(index), paint);
 
-        if(!(card.cardTemporaryFlipped() || card.cardFlipped())) {
-            drawCardIcon(canvas, index, R.drawable.ic_flip_to_front);
-        }
+        int cardImage = !(card.cardTemporaryFlipped() || card.cardFlipped()) ?
+                R.drawable.ic_flip_to_front : card.getImage();
+        drawCardIcon(canvas, cardImage);
 
         canvas.restore();
     }
 
-    public void drawCardIcon(Canvas canvas, int index, int image) {
+    public void drawCardIcon(Canvas canvas, int image) {
         int left = 20,
             right = rectSize - 20,
             bottom = rectSize - 20,
