@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class MemoryCards extends View {
     private ArrayList<Rect> cardsPlaces;
-    private Paint blue, hiddenCardBackgroundPaint, grey, green, deepPurple, black, red, pink, sunflower;
+    private Paint hiddenCardBackgroundPaint;
     private int windowHeight, windowWidth, rectSize, playerOneScore, playerTwoScore;
     private ArrayList<Card> cards;
     private boolean firstCardFlipped, clickDisabled, firstPlayerPlaying, isGameOver;
@@ -58,25 +58,30 @@ public class MemoryCards extends View {
         clickDisabled = false;
 
         hiddenCardBackgroundPaint = getPaint(0xff37474F);
-        black = getPaint(0xFF000000);
-        blue = getPaint(0xff0277BD);
-        green = getPaint(0xff2E7D32);
-        deepPurple = getPaint(0xff4527A0);
-        red = getPaint(0xffC62828);
-        pink = getPaint(0xffAD1457);
-        sunflower = getPaint(0xfff1c40f);
-        grey = getPaint(0xff424242);
 
         setWindowDimensions();
         rectSize = windowHeight < windowWidth ? windowHeight / 4 : windowWidth / 4;
         rectSize -= 10;
 
-        Paint colorPalet[] = {black, blue, red, green, deepPurple, pink, sunflower, grey};
+        Paint colorPallet[] = getColors();
 
         for (int i = 0; i < 16; i++) {
             cardsPlaces.add(new Rect(0, 0, rectSize, rectSize));
-            cards.add(new Card(colorPalet[i / 2]));
+            cards.add(new Card(colorPallet[i / 2]));
         }
+    }
+
+    private Paint[] getColors() {
+        Paint black = getPaint(0xFF000000);
+        Paint blue = getPaint(0xff0277BD);
+        Paint green = getPaint(0xff2E7D32);
+        Paint deepPurple = getPaint(0xff4527A0);
+        Paint red = getPaint(0xffC62828);
+        Paint pink = getPaint(0xffAD1457);
+        Paint sunflower = getPaint(0xfff1c40f);
+        Paint grey = getPaint(0xff424242);
+        Paint[] paints =  {black, blue, red, green, deepPurple, pink, sunflower, grey};
+        return paints;
     }
 
     private void setActivePlayerLabel(int activePlayerNumber) {
