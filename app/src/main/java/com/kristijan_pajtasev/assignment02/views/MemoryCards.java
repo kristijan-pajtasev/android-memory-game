@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class MemoryCards extends View {
     private ArrayList<Rect> cardsPlaces;
-    private Paint blue, hiddenCardBackgroundPaint, carrot, green, purple, black, midnightBlue, concrete, sunflower;
+    private Paint blue, hiddenCardBackgroundPaint, grey, green, deepPurple, black, red, pink, sunflower;
     private int windowHeight, windowWidth, rectSize, playerOneScore, playerTwoScore;
     private ArrayList<Card> cards;
     private boolean firstCardFlipped, clickDisabled, firstPlayerPlaying, isGameOver;
@@ -57,21 +57,21 @@ public class MemoryCards extends View {
         firstCardFlipped = false;
         clickDisabled = false;
 
-        black = getPaint(0xFF000000);
-        blue = getPaint(0xff0000ff);
-        green = getPaint(0xff00ff00);
         hiddenCardBackgroundPaint = getPaint(0xff37474F);
-        purple = getPaint(0xffff00ff);
-        midnightBlue = getPaint(0xff2c3e50);
-        concrete = getPaint(0xff95a5a6);
+        black = getPaint(0xFF000000);
+        blue = getPaint(0xff0277BD);
+        green = getPaint(0xff2E7D32);
+        deepPurple = getPaint(0xff4527A0);
+        red = getPaint(0xffC62828);
+        pink = getPaint(0xffAD1457);
         sunflower = getPaint(0xfff1c40f);
-        carrot = getPaint(0xffe67e22);
+        grey = getPaint(0xff424242);
 
         setWindowDimensions();
         rectSize = windowHeight < windowWidth ? windowHeight / 4 : windowWidth / 4;
         rectSize -= 10;
 
-        Paint colorPalet[] = {black, blue, midnightBlue, green, purple, concrete, sunflower, carrot};
+        Paint colorPalet[] = {black, blue, red, green, deepPurple, pink, sunflower, grey};
 
         for (int i = 0; i < 16; i++) {
             cardsPlaces.add(new Rect(0, 0, rectSize, rectSize));
