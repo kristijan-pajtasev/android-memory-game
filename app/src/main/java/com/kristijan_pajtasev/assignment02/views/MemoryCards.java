@@ -64,6 +64,7 @@ public class MemoryCards extends View {
         carrot = getPaint(0xffe67e22);
 
         setWindowDimensions();
+//        setActivePlayerLabel(firstPlayerPlaying ? 1 : 2);
         rectSize = windowHeight < windowWidth ? windowHeight / 4 : windowWidth / 4;
         rectSize -= 10;
 
@@ -73,6 +74,10 @@ public class MemoryCards extends View {
             cardsPlaces.add(new Rect(0, 0, rectSize, rectSize));
             cards.add(new Card(colorPalet[i / 2]));
         }
+    }
+
+    private void setActivePlayerLabel(int activePlayerNumber) {
+        ((MainActivity)context).setActivePlayerMessage(activePlayerNumber);
     }
 
 
@@ -140,6 +145,7 @@ public class MemoryCards extends View {
                     new FlipBack(cards, this).start();
                 }
                 firstPlayerPlaying = !firstPlayerPlaying;
+                setActivePlayerLabel(firstPlayerPlaying ? 1 : 2);
             } else firstCardFlipped = true;
         }
     }

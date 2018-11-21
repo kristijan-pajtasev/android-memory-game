@@ -10,19 +10,11 @@
         android:layout_alignParentTop="true">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/gameStatus"
-            android:textAlignment="center"
-            android:text="status"/>
-
-        <Button
-            android:id="@+id/gameResetButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/reset_game"/>
+            android:id="@+id/gameStatus"
+            android:textAlignment="center" />
+
     </LinearLayout>
 
 
@@ -48,11 +40,20 @@
             android:layout_weight="1" />
     </LinearLayout>
 
+    <Button
+        android:id="@+id/gameResetButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/memoryCardViewContainer"
+        android:text="@string/reset_game"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#ffffff">
+        android:background="#ffffff"
+        android:id="@+id/memoryCardViewContainer">
+
         <com.kristijan_pajtasev.assignment02.views.MemoryCards
             android:id="@+id/memoryCardsView"
             android:layout_width="match_parent"

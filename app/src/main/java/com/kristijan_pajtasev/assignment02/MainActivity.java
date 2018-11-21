@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         memoryCardsView.setLayoutParams(layoutParams);
 
         initializeTextViews();
+        setActivePlayerMessage(1);
 
         Button gameResetButton = (Button)findViewById(R.id.gameResetButton);
         gameResetButton.setOnClickListener(new View.OnClickListener(){
@@ -58,6 +59,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void setPlayerTwoScore(int score) {
         playerTwoScore.setText("Player 2: " + score);
+    }
+
+    public void setActivePlayerMessage(int playerNumber) {
+        TextView statusLabel = findViewById(R.id.gameStatus);
+        statusLabel.setText("Player " + playerNumber + " playing.");
     }
 
     private void setWindowDimensions() {
