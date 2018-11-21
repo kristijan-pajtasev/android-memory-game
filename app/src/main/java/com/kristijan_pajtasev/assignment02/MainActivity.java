@@ -54,11 +54,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setPlayerOneScore(int score) {
-        playerOneScore.setText("Player 1: " + score);
+        playerOneScore.setText("" + score);
     }
 
     public void setPlayerTwoScore(int score) {
-        playerTwoScore.setText("Player 2: " + score);
+        playerTwoScore.setText("" + score);
     }
 
     public void setActivePlayerMessage(int playerNumber) {
