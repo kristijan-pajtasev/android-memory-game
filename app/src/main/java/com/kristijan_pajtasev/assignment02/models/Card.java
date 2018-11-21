@@ -4,10 +4,12 @@ import android.graphics.Paint;
 
 public class Card {
     Paint color;
+    int image;
     private boolean isFlipped = false, isTemporaryFlipped;
 
-    public Card(Paint color) {
+    public Card(Paint color, int image) {
         this.color = color;
+        this.image = image;
     }
 
     public boolean cardFlipped() {
@@ -34,5 +36,9 @@ public class Card {
 
     public Paint getColor() {
         return color;
+    }
+
+    public int getImage() {
+        return image;
     }
 }

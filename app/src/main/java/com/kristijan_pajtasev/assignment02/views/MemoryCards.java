@@ -64,10 +64,15 @@ public class MemoryCards extends View {
         rectSize -= 10;
 
         Paint colorPallet[] = getColors();
+        int[] cardImages = {
+            R.drawable.ic_android, R.drawable.ic_beach, R.drawable.ic_child,
+            R.drawable.ic_directions_bike, R.drawable.ic_directions_boat, R.drawable.ic_fire,
+            R.drawable.ic_person, R.drawable.ic_train
+        };
 
         for (int i = 0; i < 16; i++) {
             cardsPlaces.add(new Rect(0, 0, rectSize, rectSize));
-            cards.add(new Card(colorPallet[i / 2]));
+            cards.add(new Card(colorPallet[i / 2], cardImages[i / 2]));
         }
     }
 
