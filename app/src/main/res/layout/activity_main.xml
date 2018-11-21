@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/gameStatus"
             android:textAlignment="center"
-            android:textSize="22dp"/>
+            android:textSize="@dimen/status_font_size"/>
 
     </LinearLayout>
 
