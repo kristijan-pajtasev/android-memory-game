@@ -20,6 +20,9 @@ import com.kristijan_pajtasev.assignment02.views.runnables.FlipBack;
 
 import java.util.ArrayList;
 
+/**
+ * MemoryCards, custom view class used for displaying cards and gameplay.
+ */
 public class MemoryCards extends View {
     private ArrayList<Rect> cardsPlaces;
     private Paint hiddenCardBackgroundPaint;
@@ -46,6 +49,9 @@ public class MemoryCards extends View {
         initialize();
     }
 
+    /**
+     * Initializes all initial variable state.
+     */
     public void initialize() {
         firstPlayerPlaying = true;
         isGameOver = false;
@@ -76,6 +82,10 @@ public class MemoryCards extends View {
         }
     }
 
+    /**
+     * Creates all required card colors
+     * @return array of paints used as card backgrounds
+     */
     private Paint[] getColors() {
         Paint black = getPaint(0xFF000000);
         Paint blue = getPaint(0xff0277BD);
@@ -89,11 +99,17 @@ public class MemoryCards extends View {
         return paints;
     }
 
+    /**
+     * Calls parent to set active player label.
+     * @param activePlayerNumber number or player to be shown as active.
+     */
     private void setActivePlayerLabel(int activePlayerNumber) {
         ((MainActivity)context).setActivePlayerMessage(activePlayerNumber);
     }
 
-
+    /**
+     * Reads and sets screen dimensions used to calculate card size.
+     */
     private void setWindowDimensions() {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) getContext()).getWindowManager()
@@ -111,6 +127,11 @@ public class MemoryCards extends View {
         }
     }
 
+    /**
+     * Draws card for given position
+     * @param canvas where card will be drawn
+     * @param index order of card in a list
+     */
     private void drawRect(Canvas canvas, int index) {
         canvas.save();
         Card card = cards.get(index);
@@ -126,6 +147,11 @@ public class MemoryCards extends View {
         canvas.restore();
     }
 
+    /**
+     * Draws image over given card.
+     * @param canvas where image is draw
+     * @param image resource that is being draw over card
+     */
     public void drawCardIcon(Canvas canvas, int image) {
         int left = 20,
             right = rectSize - 20,
@@ -137,12 +163,23 @@ public class MemoryCards extends View {
         d.draw(canvas);
     }
 
+    /**
+     * Creates paint for given hex code
+     * @param color hex code of color
+     * @return new created Paint for given hex
+     */
     private Paint getPaint(int color) {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(color);
         return paint;
     }
 
+    /**
+     * Handles ACTION_DOWN event. Calculates card clicked based on click location and calls card
+     * select handler.
+     * @param event occurred.
+     * @return
+     */
     public boolean onTouchEvent(MotionEvent event) {
         if(isGameOver || clickDisabled) return super.onTouchEvent(event);
 
@@ -160,12 +197,21 @@ public class MemoryCards extends View {
         return super.onTouchEvent(event);
     }
 
+    /**
+     * Handler for card click. If valid click tries to flip it.
+     * @param x card row for click
+     * @param y card column for click
+     */
     public void handleClickAction(int x, int y) {
         int cardIndex = x + y * 4;
         if(cardIndex < cards.size())
             flipCard(cards.get(cardIndex));
     }
 
+    /**
+     * Flips card if not already flipped.
+     * @param card card to be flipped.
+     */
     public void flipCard(Card card) {
         if(!card.cardFlipped() && !card.cardTemporaryFlipped()) {
             card.temporaryFlipCard();
@@ -175,6 +221,10 @@ public class MemoryCards extends View {
         }
     }
 
+    /**
+     * Flips second card. If second is match permanently flips them otherwise flips them back.
+     * Checks for game over.
+     */
     public void handleSecondCardFlip() {
         firstCardFlipped = false;
         if(isMatch()) {
@@ -192,6 +242,9 @@ public class MemoryCards extends View {
         }
     }
 
+    /**
+     * Checking for end game. If any player has score > 5 or both have 4, game is over.
+     */
     private void checkForEndGame() {
         if(playerOneScore > 4 || playerTwoScore > 4 ||
                 (playerOneScore == 4 && playerOneScore == playerTwoScore)) {
@@ -205,6 +258,9 @@ public class MemoryCards extends View {
         }
     }
 
+    /**
+     * Increments score of current player.
+     */
     public void updateScore() {
         if(firstPlayerPlaying) {
             playerOneScore++;
@@ -215,10 +271,17 @@ public class MemoryCards extends View {
         }
     }
 
+    /**
+     * Temporary flips card before before checking if there is match.
+     */
     public void flipTemporaryFlippedCards() {
         for(Card card: cards) if(card.cardTemporaryFlipped()) card.flipCard();
     }
 
+    /**
+     * Check if temporary flipped cards are match.
+     * @return boolean if there is match
+     */
     public boolean isMatch() {
         Paint paint = null;
         for(Card card: cards) {
@@ -228,12 +291,18 @@ public class MemoryCards extends View {
         return false;
     }
 
+    /**
+     * Resets game.
+     */
     public void reset() {
         initialize();
         setActivePlayerLabel(1);
         invalidate();
     }
 
+    /**
+     * Enables or disables allowed click.
+     */
     public void enableClick() {
         clickDisabled = false;
     }
