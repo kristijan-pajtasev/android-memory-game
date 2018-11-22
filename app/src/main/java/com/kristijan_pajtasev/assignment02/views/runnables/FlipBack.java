@@ -5,15 +5,26 @@ import com.kristijan_pajtasev.assignment02.views.MemoryCards;
 
 import java.util.ArrayList;
 
+/**
+ * Separate thread for flipping back card used if unmatched cards are selected.
+ */
 public class FlipBack extends Thread {
     private ArrayList<Card> cards;
     MemoryCards view;
 
+    /**
+     * Constructor accepting array of cards and custom view instance.
+     * @param cards displayed cards
+     * @param view view containing game
+     */
     public FlipBack(ArrayList<Card> cards, MemoryCards view) {
         this.cards = cards;
         this.view = view;
     }
 
+    /**
+     * Waits for 0.5s and then flips back unmatched cards.
+     */
     @Override
     public void run() {
         try {
