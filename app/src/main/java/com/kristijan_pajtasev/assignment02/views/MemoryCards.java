@@ -19,6 +19,8 @@ import com.kristijan_pajtasev.assignment02.models.Card;
 import com.kristijan_pajtasev.assignment02.views.runnables.FlipBack;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * MemoryCards, custom view class used for displaying cards and gameplay.
@@ -80,6 +82,7 @@ public class MemoryCards extends View {
             cardsPlaces.add(new Rect(0, 0, rectSize, rectSize));
             cards.add(new Card(colorPallet[i / 2], cardImages[i / 2]));
         }
+        Collections.shuffle(cards);
     }
 
     /**
